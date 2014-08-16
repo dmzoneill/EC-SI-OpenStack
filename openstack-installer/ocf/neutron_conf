@@ -1,0 +1,31 @@
+[DEFAULT]
+auth_strategy = keystone
+state_path = /var/lib/neutron
+lock_path = \$state_path/lock
+core_plugin = neutron.plugins.openvswitch.ovs_neutron_plugin.OVSNeutronPluginV2
+control_exchange = neutron
+rabbit_host = $CONTROLLER_SERVICE_FQDN
+rabbit_port = 5672
+rabbit_userid = guest
+rabbit_password = $PASSWORD
+notification_driver = neutron.openstack.common.notifier.rabbit_notifier
+rpc_backend = neutron.openstack.common.rpc.impl_kombu
+ovs_use_veth = True
+allow_overlapping_ips = True
+[quotas]
+quota_network = 20
+quota_subnet = 20
+[agent]
+root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+[keystone_authtoken]
+auth_host = $CONTROLLER_SERVICE_FQDN
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = neutron
+admin_password = $PASSWORD
+signing_dir = \$state_path/keystone-signing
+[database]
+connection = mysql://neutron:$PASSWORD@$CONTROLLER_SERVICE_FQDN/neutron
+[service_providers]
+#service_provider=LOADBALANCER:Haproxy:neutron.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default

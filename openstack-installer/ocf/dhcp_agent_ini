@@ -1,0 +1,8 @@
+[DEFAULT]
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
+dnsmasq_config_file = /etc/neutron/dnsmasq.conf
+handle_internal_only_routers = True
+external_network_bridge = br-ex
+ovs_use_veth = True
+use_namespaces = True
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq

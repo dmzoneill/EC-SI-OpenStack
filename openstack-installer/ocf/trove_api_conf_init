@@ -1,0 +1,18 @@
+description "Trove api server"
+author "Intel <intel@intel.com>"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+chdir /var/run
+
+pre-start script
+    mkdir -p /var/run/trove-api
+    chown trove:trove /var/run/trove-api
+
+    mkdir -p /var/lock/trove-api
+    chown trove:root /var/lock/trove-api
+end script
+
+exec start-stop-daemon --start --chuid trove --exec /usr/bin/trove-api \
+     -- --config-file=/etc/trove/trove.conf --log-file=/var/log/trove/trove-api.log

@@ -1,0 +1,9 @@
+[DEFAULT]
+auth_url = http://$CONTROLLER_SERVICE_FQDN:5000/v2.0
+auth_region = regionOne
+admin_tenant_name = service
+admin_user = neutron
+admin_password = $PASSWORD
+nova_metadata_ip = $CONTROLLER_EXT_IP
+metadata_proxy_shared_secret = $TOKEN
+nova_metadata_port = 8775

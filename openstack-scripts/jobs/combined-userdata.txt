@@ -1,0 +1,62 @@
+Content-Type: multipart/mixed; boundary="===============4299251683960274035=="
+MIME-Version: 1.0
+
+--===============4299251683960274035==
+Content-Type: text/cloud-boothook; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="rc.sh"
+
+#!/bin/sh
+LOG=/root/log.txt
+
+echo "The time is now $(date -R)!" | tee $LOG
+apt-get -y install puppet
+sed -i 's/^START=.*$/START=yes/g' /etc/default/puppet
+service puppet restart
+
+
+--===============4299251683960274035==
+Content-Type: text/x-include-url; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="inc.url"
+
+# these urls will be read pulled in if they were part of user-data
+# comments are allowed.  The format is one url per line
+http://www.ubuntu.com/robots.txt
+http://www.w3schools.com/html/lastpage.htm
+--===============4299251683960274035==
+Content-Type: text/upstart-job; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="upstart.conf"
+
+description "a test upstart job"
+start on stopped rc RUNLEVEL=[2345]
+console output
+task
+script
+echo "====BEGIN======="
+echo "HELLO From an Upstart Job"
+echo "=====END========"
+end script
+--===============4299251683960274035==
+Content-Type: text/x-shellscript; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="rc.pl"
+
+#!/usr/bin/perl
+print "This is a user script (rc.local)\n"
+--===============4299251683960274035==
+Content-Type: text/cloud-config; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud.txt"
+
+#cloud-config
+ssh_import_id: [smoser]
+apt_sources:
+ - source: "ppa:smoser/ppa"
+--===============4299251683960274035==--

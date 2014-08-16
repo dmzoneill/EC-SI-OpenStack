@@ -1,0 +1,32 @@
+[composite:trove]
+use = call:trove.common.wsgi:versioned_urlmap
+/: versions
+/v1.0: troveapi
+[app:versions]
+paste.app_factory = trove.versions:app_factory
+[pipeline:troveapi]
+pipeline = faultwrapper authtoken authorization contextwrapper ratelimit extensions troveapp
+[filter:extensions]
+paste.filter_factory = trove.common.extensions:factory
+[filter:authtoken]
+paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
+auth_host = $CONTROLLER_SERVICE_FQDN
+auth_port = 5000
+auth_uri=http://$CONTROLLER_SERVICE_FQDN:5000/v2.0
+auth_protocol = http
+admin_tenant_name = service
+admin_user = nova
+admin_password = $PASSWORD
+auth_version = v2.0
+[filter:authorization]
+paste.filter_factory = trove.common.auth:AuthorizationMiddleware.factory
+[filter:contextwrapper]
+paste.filter_factory = trove.common.wsgi:ContextMiddleware.factory
+[filter:faultwrapper]
+paste.filter_factory = trove.common.wsgi:FaultWrapper.factory
+[filter:ratelimit]
+paste.filter_factory = trove.common.limits:RateLimitingMiddleware.factory
+[app:troveapp]
+paste.app_factory = trove.common.api:app_factory
+[filter:debug]
+paste.filter_factory = trove.common.wsgi:Debug

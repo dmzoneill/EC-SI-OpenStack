@@ -1,0 +1,14 @@
+[DEFAULT]
+auth_url = http://$CONTROLLER_SERVICE_FQDN:5000/v2.0
+auth_host = $CONTROLLER_SERVICE_FQDN
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = neutron
+admin_password = $PASSWORD
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
+handle_internal_only_routers = True
+ovs_use_veth = True
+use_namespaces = True
+metadata_ip = $CONTROLLER_EXT_IP
+metadata_port = 8775 

@@ -1,0 +1,18 @@
+[ovs]
+tunnel_type = gre
+tenant_network_type = gre
+tunnel_id_ranges = 1:1000
+enable_tunneling = True
+integration_bridge = br-int
+tunnel_bridge = br-tun
+local_ip = $INT_IP
+#bridge_mappings = physnet1:br-eth1
+[agent]
+tunnel_types = gre
+[database]
+#sql_connection = mysql://neutron:$PASSWORD@$CONTROLLER_SERVICE_FQDN/neutron
+connection = mysql://neutron:$PASSWORD@$CONTROLLER_SERVICE_FQDN/neutron
+[securitygroup]
+#firewall_driver = neutron.agent.firewall.NoopFirewallDriver
+#firewall_driver = nova.virt.firewall.NoopFirewallDriver
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver

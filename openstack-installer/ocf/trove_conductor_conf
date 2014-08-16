@@ -1,0 +1,12 @@
+[DEFAULT]
+verbose = True
+debug = True
+trove_auth_url = http://$CONTROLLER_SERVICE_FQDN:5000/v2.0
+nova_proxy_admin_pass = $PASSWORD
+nova_proxy_admin_tenant_name = service
+nova_proxy_admin_user = admin
+sql_connection = mysql://trove:$PASSWORD@$CONTROLLER_SERVICE_FQDN/trove
+rabbit_host = $CONTROLLER_SERVICE_FQDN
+rabbit_port = 5672
+rabbit_userid = guest
+rabbit_password = $PASSWORD

@@ -1,0 +1,36 @@
+[DEFAULT]
+sql_connection = mysql://heat:$PASSWORD@$CONTROLLER_SERVICE_FQDN/heat
+verbose = True
+log_dir=/var/log/heat
+rabbit_host = $CONTROLLER_SERVICE_FQDN
+rabbit_port = 5672
+rabbit_userid = guest
+rabbit_password = $PASSWORD
+[ssl]
+[database]
+[paste_deploy]
+[rpc_notifier2]
+[ec2authtoken]
+[ec2_authtoken]
+keystone_ec2_uri = http://$CONTROLLER_SERVICE_FQDN:5000/v2.0/ec2tokens
+auth_host = $CONTROLLER_SERVICE_FQDN
+auth_port = 35357
+auth_protocol = http
+auth_uri = http://$CONTROLLER_SERVICE_FQDN:5000/v2.0
+admin_tenant_name = service
+admin_user = heat
+admin_password = $PASSWORD
+[heat_api_cloudwatch]
+[heat_api]
+[heat_api_cfn]
+[auth_password]
+[matchmaker_ring]
+[matchmaker_redis]
+[keystone_authtoken]
+auth_host = $CONTROLLER_SERVICE_FQDN
+auth_port = 35357
+auth_protocol = http
+auth_uri = http://$CONTROLLER_SERVICE_FQDN:5000/v2.0
+admin_tenant_name = service
+admin_user = heat
+admin_password = $PASSWORD

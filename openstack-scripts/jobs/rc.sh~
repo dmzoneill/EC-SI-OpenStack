@@ -1,0 +1,5 @@
+#!/bin/sh
+LOG=/root/log.txt
+
+echo "The time is now $(date -R)!" | tee $LOG
+apt-get install puppet

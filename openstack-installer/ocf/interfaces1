@@ -1,0 +1,28 @@
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# VM internet Access
+auto eth0
+iface eth0 inet manual
+up ifconfig eth0 0.0.0.0 up
+up ip link set eth0 promisc on
+down ip link set eth0 promisc off
+down ifconfig eth0 down
+
+# Internal Network
+auto eth1
+iface eth1 inet static
+address $INT_IP
+netmask $INT_NM
+
+# internet Access
+auto br-ex
+iface br-ex inet static
+address $EXT_IP
+broadcast $EXT_BC
+network $EXT_NW
+netmask $EXT_NM
+gateway $EXT_GW
+dns-search $EXT_DS
+dns-nameservers $EXT_DR

@@ -1,0 +1,4 @@
+#cloud-config
+ssh_import_id: [smoser]
+apt_sources:
+ - source: "ppa:smoser/ppa"

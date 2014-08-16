@@ -1,0 +1,26 @@
+[DEFAULT]
+rabbit_host = $CONTROLLER_SERVICE_FQDN
+rabbit_port = 5672
+rabbit_userid = guest
+rabbit_password = $PASSWORD
+#sqlite_db = ceilometer.sqlite
+[publisher_rpc]
+metering_secret = $TOKEN
+[ssl]
+[database]
+connection = mongodb://ceilometer:$PASSWORD@$CONTROLLER_SERVICE_FQDN:27017/ceilometer
+[alarm]
+[rpc_notifier2]
+[api]
+[service_credentials]
+[dispatcher_file]
+[keystone_authtoken]
+auth_host = $CONTROLLER_SERVICE_FQDN
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = ceilometer
+admin_password = $PASSWORD
+[collector]
+[matchmaker_ring]
+[matchmaker_redis]

@@ -1,0 +1,18 @@
+qemu-img create -f qcow2 /tmp/precise.qcow2 10G
+virsh net-start default
+virt-install --virt-type kvm --name saucy --ram 768 \
+--cdrom=/tmp/mini.iso \
+--disk /tmp/saucy.qcow2,format=qcow2 \
+--network network=default \
+--graphics vnc,listen=0.0.0.0 --noautoconsole \
+--os-type=linux --os-variant=ubuntusaucy
+virt-viewer saucy
+virsh dumpxml saucy
+virsh start saucy --paused
+virsh attach-disk --type cdrom --mode readonly saucy "" hdc
+guest:dpkg-reconfigure cloud-init
+guest:dpkg-reconfigure cloud-init
+guest:rm /etc/ssh/ssh_host_*
+guest:rm /etc/udev/rules.d/70-net-pers*
+virt-sysprep -d saucy
+virsh undefine saucy

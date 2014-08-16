@@ -1,0 +1,6 @@
+#example rabbitmq-env.conf file entries
+#Rename the node
+#NODENAME=bunny@myhost
+#Config file location and new filename bunnies.config
+#CONFIG_FILE=/etc/rabbitmq/testdir/bunnies
+NODE_IP_ADDRESS=
