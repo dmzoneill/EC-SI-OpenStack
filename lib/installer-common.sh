@@ -11,6 +11,30 @@ run_as_root() {
 	sudo "$@"
 }
 
+# Read a KEY=VALUE file such as /etc/environment and export each valid name.
+# Surrounding single or double quotes are removed. An optional export prefix is
+# accepted so OpenStack keystonerc files load the same variables.
+LoadEnvironmentFile() {
+	local key value
+	while IFS='=' read -r key value; do
+		key="${key#"${key%%[![:space:]]*}"}"
+		key="${key%"${key##*[![:space:]]}"}"
+		[[ -z "$key" || "$key" == \#* ]] && continue
+		if [[ "$key" == "export "* ]]; then
+			key="${key#export }"
+			key="${key#"${key%%[![:space:]]*}"}"
+			key="${key%"${key##*[![:space:]]}"}"
+		fi
+		[[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+		if [[ ${#value} -ge 2 && "${value:0:1}" == '"' && "${value: -1}" == '"' ]]; then
+			value="${value:1:$((${#value} - 2))}"
+		elif [[ ${#value} -ge 2 && "${value:0:1}" == "'" && "${value: -1}" == "'" ]]; then
+			value="${value:1:$((${#value} - 2))}"
+		fi
+		export "$key=$value"
+	done <"$1"
+}
+
 ####################################################################################################
 # Networking
 ####################################################################################################
@@ -123,7 +147,7 @@ function ConfigureMysql {
 			RemoveService "mysql"
 
 			sed -i 's/PATH="\(.*\)"/PATH="\1:\/opt\/mysql\/server-5.6\/bin"/g' /etc/environment
-			eval '. /etc/environment'
+			LoadEnvironmentFile /etc/environment
 
 			BackupConfig "/etc/mysql/my.cnf"
 			CONFIG=$(ReadConfig "$CWD/ocf/my_cnf")
@@ -219,7 +243,7 @@ function ConfigureKeystone {
 
 		CONFIG=$(ReadConfig "$CWD/ocf/keystonerc")
 		WriteConfig "/root/keystonerc" "$CONFIG"
-		eval '. /root/keystonerc'
+		LoadEnvironmentFile /root/keystonerc
 
 		run_logged rm -rvf /var/lib/keystone/keystone.sqlite
 		SqlExec "CREATE DATABASE keystone;"
