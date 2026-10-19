@@ -123,7 +123,7 @@ function ConfigureMysql {
 			RemoveService "mysql"
 
 			sed -i 's/PATH="\(.*\)"/PATH="\1:\/opt\/mysql\/server-5.6\/bin"/g' /etc/environment
-			source /etc/environment
+			eval '. /etc/environment'
 
 			BackupConfig "/etc/mysql/my.cnf"
 			CONFIG=$(ReadConfig "$CWD/ocf/my_cnf")
