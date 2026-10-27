@@ -1,9 +1,8 @@
+# EC-SI-OpenStack
+
 <p align="center">
   <img src=".github/logo.png" alt="EC-SI-OpenStack logo" width="128" />
 </p>
-
-EC-SI-OpenStack
-===============
 
 Configure the top of the script with your network settings
 
